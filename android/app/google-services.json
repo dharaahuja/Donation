@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "92185794175",
+    "project_id": "donation-fbcbd",
+    "storage_bucket": "donation-fbcbd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:92185794175:android:98b2c9a70329cbb0e5114a",
+        "android_client_info": {
+          "package_name": "com.donation"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp-R6KpsgbgTfL9JshiRU6K48zxfkVoyY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
