@@ -17,11 +17,12 @@ const DInputText: React.FC<DInputTextPropos> = ({title, placeholderText, onChang
     const colorScheme = useColorScheme();
     const isDarkMode = colorScheme === 'dark';
     const { width: screenWidth } = Dimensions.get('window');
+    let darkLightcolor = isDarkMode ? colors.white : colors.greenPrimary
 
     return (
         <View>
             <Text style={[styles.title, {color: isDarkMode ? colors.white : colors.greenPrimary}]}>{title}</Text>
-            <TextInput style={[styles.textInput, {marginBottom: (errorText && touched) ? 0 : 15},{color: isDarkMode ? colors.white : colors.greenPrimary, width: screenWidth * 0.75}, {borderBottomColor: isDarkMode ? colors.white : colors.greenPrimary}]} 
+            <TextInput style={[styles.textInput, {marginBottom: (errorText && touched) ? 0 : 15},{color: darkLightcolor, width: screenWidth * 0.75}, {borderBottomColor: darkLightcolor}]} 
             placeholder={placeholderText} 
             onChangeText={onChangeText}
             secureTextEntry={isSecure}/>
