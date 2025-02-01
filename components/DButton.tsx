@@ -1,5 +1,6 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet, useColorScheme, Platform, Dimensions } from "react-native";
+import colors from "../colors";
 
 interface DButtonProps {
     onPress: (()=>{}) | any;
@@ -15,7 +16,7 @@ const DButton: React.FC<DButtonProps> = ({onPress, title}) => {
     return(
         <TouchableOpacity style={[styles.button, {width: screenWidth * 0.70}, isDarkMode? styles.darkContainer :styles.lightContainer ]}
         onPress={onPress}>
-            <Text style={[styles.buttonText, {color: isDarkMode ? '#ffffff': (Platform.OS === 'android'?'#ffffff': '#749E47')}]}>{title}</Text>
+            <Text style={[styles.buttonText, {color: isDarkMode ? colors.white : (Platform.OS === 'android'? colors.white: colors.greenPrimary)}]}>{title}</Text>
         </TouchableOpacity>
     )
 }

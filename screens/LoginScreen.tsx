@@ -2,38 +2,26 @@ import { View, ScrollView, SafeAreaView, KeyboardAvoidingView, StyleSheet, useCo
 import DButton from '../components/DButton';
 import DInputText from '../components/DInputText';
 import { Formik } from 'formik';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 
+export type DonationStackParamList = {
+    LoginScreen: undefined;
+    ItemListScreen: undefined;
+  };
+
+type LoginScreenRouteProp = RouteProp<DonationStackParamList, 'LoginScreen'>
+
+type LoginScreenNavigationProp = StackNavigationProp<DonationStackParamList, 'LoginScreen'>
+
+type Props = {
+    route: LoginScreenRouteProp;
+    navigation: LoginScreenNavigationProp;
+}
 const LoginScreen = () => {
     const isDarkMode = useColorScheme() === 'dark';
-   
-    // const validateUsername = (username: any) => {
-    //     const regex = /^[a-zA-Z0-9_]{4,15}$/;
-    //     return (regex.test(username) ?? "Please enter valid Username");
-    //   };
-
-    // const validatePassword = (password: any) => {
-    //     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    //     return (regex.test(password) ?? "Please enter valid password");
-    // };
-
-    // const validate = (values: any, props: any /* only available when using withFormik */) => {
-    //     const errors = {
-    //         username: "",
-    //         password: "",
-    //     };
-      
-    //     if (!values.username) {
-    //       errors.username = 'Required';
-    //     } else if (!/^[a-zA-Z0-9_]{4,15}$/i.test(values.email)) {
-    //       errors.username = 'Invalid username address';
-    //     }
-        
-    //     if(!values.password) {
-    //         errors.password = "Required";
-    //     }
-      
-    //     return errors;
-    //   };
+    const navigation = useNavigation<LoginScreenNavigationProp>();
     return (
         <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView>
@@ -58,7 +46,8 @@ const LoginScreen = () => {
                     return errors;
                  }}
                 onSubmit={() => {
-
+                    console.log("OnSubmit called")
+                    navigation.navigate("ItemListScreen")
                 }}
                 >{({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                     <View>
@@ -83,7 +72,7 @@ const LoginScreen = () => {
                     touched={touched.password}
                     />
 
-                    <DButton title='Login' onPress={handleSubmit} />
+                    <DButton title='Login' onPress={()=>{navigation.navigate("ItemListScreen")}} />
                     </View>
                 )}
                 </Formik>

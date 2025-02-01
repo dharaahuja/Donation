@@ -20,7 +20,7 @@ import LoginScreen from './screens/LoginScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ProfileScreen from './screens/ProfileScreen';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import ItemListScreen from './screens/ItemListScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,16 +33,10 @@ function App(): React.JSX.Element {
 
   return (
     
-    // <SafeAreaView style={[backgroundStyle, styles.container]}>
-    //   <StatusBar
-    //     barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-    //     backgroundColor={backgroundStyle.backgroundColor}
-    //   />
-    
       <NavigationContainer>
         <Stack.Navigator initialRouteName='LoginScreen'>
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
-            <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+            <Stack.Screen name="ItemListScreen" component={ItemListScreen} />
         </Stack.Navigator>
       </NavigationContainer>
   )
