@@ -1,0 +1,17 @@
+{"donationItems":[{
+    "id": "0", 
+    "title": "Donate Food to 100 Shramik",
+    "secondaryText": "Donate food to migrant workers and daily labourers to fight hunger",
+    "image": "/Users/dhruvikaahuja/Documents/Workspace/React-Native/Donation/assets/images/food1.png"
+
+},{
+    "id": "1",
+    "title": "Provide warm rug to 10 dogs",
+    "secondaryText": "A feed dog is a movable plate which pulls fabric through a sewing machine in discrete steps between stitches. Needle plate, presser foot, and feed dogs ...",
+    "image": "/Users/dhruvikaahuja/Documents/Workspace/React-Native/Donation/assets/images/dogs1.jpeg"
+}, {
+    "id": "2",
+    "title": "Donate Food on Birthday",
+   "secondaryText": "Share the joy with someone who value",
+    "image": "/Users/dhruvikaahuja/Documents/Workspace/React-Native/Donation/assets/images/birthday1.png"
+}]}

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Button } from "react-native";
 import colors from "../colors";
 
 // Follow https://m2.material.io/components/cards#specs for different UI designs and design dynamic UI for it
@@ -14,21 +14,23 @@ interface DCardViewProps {
     title: string,
     secondaryText?: string | undefined,
     thumbnailImage?: string | undefined,
-    imagePath: string
+    imagePath?: string
     imagePosition?: ImagePosition | undefined,
     imageHeightWidth?: {height: number, width: number} | undefined,
     actionButtonText?: string | undefined,
-    actionButtonOnPress?: (()=>{}) | undefined
+    actionButtonOnPress?: (()=>{}) | any,
 }
 
-const DCardView: React.FC<DCardViewProps> = ({title, secondaryText, imagePath, imagePosition, imageHeightWidth}) => {
+const DCardView: React.FC<DCardViewProps> = ({title, secondaryText, imagePath, imagePosition, imageHeightWidth, actionButtonText, actionButtonOnPress}) => {
     return(
         <View style={styles.container}>
             <Text style={styles.primaryTextStyle}>{title}</Text>
             <Text style={styles.secondaryTextStyle}>{secondaryText}</Text>
              {(imagePath && imageHeightWidth && 
-                        (<Image source={require('../assets/images/birthday1.png')} style={{width: imageHeightWidth?.width, height: imageHeightWidth?.height}} />))}
-        
+            (<Image source={{ uri: imagePath }} style={{width: imageHeightWidth?.width, height: imageHeightWidth?.height}} />))}
+            {(actionButtonText && (<Button 
+            title={actionButtonText}
+            onPress={actionButtonOnPress}/>))}
         </View>
     )
 }
@@ -53,6 +55,7 @@ const styles = StyleSheet.create({
         color: colors.textSecondary,
         fontSize: 15,
         fontWeight: 'condensed',
+        paddingBottom: 10,
     }
 })
 

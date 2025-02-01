@@ -1,8 +1,12 @@
 import { View, Text, SafeAreaView, FlatList, Dimensions } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DCardView from "../components/DCardView";
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
+import axios from "axios";
+import { DonationItem, addDonation, removeDaonation } from "../store/itemsSlice";
+import { useDispatch, useSelector } from 'react-redux';
+import { store } from "../store";
 
 export type DonationStackParamList = {
     LoginScreen: undefined;
@@ -18,37 +22,61 @@ type Props = {
     navigation: ItemListScreenNavigationProp;
 }
 
+type RootState = ReturnType<typeof store.getState>;
+
 const ItemListScreen = () => {
+    const dispatch = useDispatch()
+    const [donationItems, setDonationItems] = useState([]);
+    const [loading, setLoading] = useState(false);
+
     const screenDimensions = Dimensions.get('screen');
     let imageDim = {width: (screenDimensions.width - 65), height: 250}
-    const [donationItems, setDonationItems] = useState([{
-        id: "0", 
-        title: "Donate Food to 100 Shramik",
-        secondaryText: "Donate food to migrant workers and daily labourers to fight hunger",
-        image: "../assets/images/food1.png",
 
-    },{
-        id: "1",
-        title: "Provide warm rug to 10 dogs",
-        secondaryText: "A feed dog is a movable plate which pulls fabric through a sewing machine in discrete steps between stitches. Needle plate, presser foot, and feed dogs ...",
-        image: "../assets/images/dogs1.jpeg",
-    }, {
-        id: '2',
-        title: "Donate Food on Birthday",
-        secondaryText: "Share the joy with someone who value",
-        image: "../assets/images/birthday1.png"
-    }])
+    const addItem = (item: DonationItem) => {
+       console.log("add item called");
+        dispatch(addDonation(item))
+    }
+    
+    useEffect(() => {
+        console.log("use effect");
+        const fetchDonationList = async () => {
+            setLoading(true);
+            try {
+                const response = await axios.get(`http://localhost:3000/donationItems`);
+                setDonationItems(response.data);
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+            }
+        };
 
+        fetchDonationList();
+    }, []);
+
+     // const state = useSelector((state:RootState)=> {
+    //     return store.getState()
+    // })
+    if(loading){
+        return(  
+         (<SafeAreaView>
+            <Text>Loading...</Text>
+         </SafeAreaView>
+         )
+    )}
     return(
         <SafeAreaView>
+            <Text>Number of Items in cart: {JSON.stringify(store.getState())}</Text>
             <FlatList 
                 data={donationItems}
-                keyExtractor={item => item.id}
+                keyExtractor={item => item["id"]}
                 renderItem={(item) => {
-                    return (<DCardView title={item.item.title} 
-                        secondaryText={item.item.secondaryText}
-                        imagePath={item.item.image}
-                        imageHeightWidth={imageDim}/>)
+                    return (<DCardView title={item.item["title"]} 
+                        secondaryText={item.item["secondaryText"]}
+                        imagePath={item.item["image"]}
+                        imageHeightWidth={imageDim}
+                        actionButtonText="Add"
+                        actionButtonOnPress={addItem}
+                        />)
                 }}
             />
         </SafeAreaView>

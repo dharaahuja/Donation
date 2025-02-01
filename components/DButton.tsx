@@ -1,22 +1,25 @@
 import React from "react";
-import { TouchableOpacity, Text, StyleSheet, useColorScheme, Platform, Dimensions } from "react-native";
+import { Image, TouchableOpacity, Text, StyleSheet, useColorScheme, Platform, Dimensions } from "react-native";
 import colors from "../colors";
 
 interface DButtonProps {
     onPress: (()=>{}) | any;
     title: string;
     disabled?: boolean;
+    imagePath?: string | undefined;
+    applyStyles?: boolean;
 }
 
-const DButton: React.FC<DButtonProps> = ({onPress, title}) => {
+const DButton: React.FC<DButtonProps> = ({onPress, title, imagePath, applyStyles}) => {
     const colorScheme = useColorScheme();
     const isDarkMode = colorScheme === 'dark';
     const { width: screenWidth } = Dimensions.get('window');
 
     return(
-        <TouchableOpacity style={[styles.button, {width: screenWidth * 0.70}, isDarkMode? styles.darkContainer :styles.lightContainer ]}
-        onPress={onPress}>
-            <Text style={[styles.buttonText, {color: isDarkMode ? colors.white : (Platform.OS === 'android'? colors.white: colors.greenPrimary)}]}>{title}</Text>
+        <TouchableOpacity style={[applyStyles && (styles.button, {width: screenWidth * 0.70}, isDarkMode? styles.darkContainer :styles.lightContainer) ]}
+            onPress={onPress}>
+            {((title.length > 0) && (<Text style={[styles.buttonText, {color: isDarkMode ? colors.white : (Platform.OS === 'android'? colors.white: colors.greenPrimary)}]}>{title}</Text>))}
+             {(imagePath && (<Image source={{ uri: imagePath }} style={{width: 30, height: 30}} />))}
         </TouchableOpacity>
     )
 }
