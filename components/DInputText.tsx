@@ -25,6 +25,8 @@ const DInputText: React.FC<DInputTextPropos> = ({title, placeholderText, onChang
             <TextInput style={[styles.textInput, {marginBottom: (errorText && touched) ? 0 : 15},{color: darkLightcolor, width: screenWidth * 0.75}, {borderBottomColor: darkLightcolor}]} 
             placeholder={placeholderText} 
             onChangeText={onChangeText}
+            onBlur={onBlur}
+            value={value}
             secureTextEntry={isSecure}/>
             {(errorText && touched &&
             (<Text style={styles.error}>{errorText}</Text>))}

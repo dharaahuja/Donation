@@ -5,12 +5,14 @@
  * @format
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   SafeAreaView,
   StatusBar,
   StyleSheet,
   useColorScheme,
+  BackHandler,
+  Alert
 } from 'react-native';
 
 import {
@@ -25,6 +27,7 @@ import colors from './colors';
 import DButton from './components/DButton';
 import { Provider } from 'react-redux';
 import { store } from './store';
+import LoginScreenReplica from './screens/LoginScreenReplica';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,14 +38,6 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
   const headerStyle = {backgroundColor: colors.navBarTint}
-
-  const addToCartPressed = () => {
-  
-  }
-
-  const backPressed = () => {
-
-  }
   return (
       <Provider store={store}>
       <NavigationContainer>
@@ -52,27 +47,7 @@ function App(): React.JSX.Element {
               title: 'Login',
               headerStyle: headerStyle,
               headerTitleStyle: styles.headerTitleStyle }}/>
-            <Stack.Screen name="ItemListScreen" component={ItemListScreen}
-           options ={{ 
-            title: 'Donate for Life',
-            headerStyle: headerStyle,
-            headerTitleStyle: styles.headerTitleStyle,
-            headerRight: () => (
-              <DButton
-                applyStyles={false}
-                title=''
-                onPress={addToCartPressed}
-                imagePath='/Users/dhruvikaahuja/Documents/Workspace/React-Native/Donation/assets/images/icons8-cart-50.png'
-              />  
-            ),
-            headerLeft: () => (
-              <DButton
-                applyStyles={false}
-                title=''
-                onPress={backPressed}
-                imagePath='/Users/dhruvikaahuja/Documents/Workspace/React-Native/Donation/assets/images/icons8-back-50.png'
-              />  
-            )}}/>
+            <Stack.Screen name="ItemListScreen" component={ItemListScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
       </Provider>

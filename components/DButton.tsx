@@ -4,21 +4,22 @@ import colors from "../colors";
 
 interface DButtonProps {
     onPress: (()=>{}) | any;
-    title: string;
+    title?: string;
     disabled?: boolean;
     imagePath?: string | undefined;
-    applyStyles?: boolean;
+    transparentBackground?: boolean;
 }
 
-const DButton: React.FC<DButtonProps> = ({onPress, title, imagePath, applyStyles}) => {
+const DButton: React.FC<DButtonProps> = ({onPress, title, imagePath, transparentBackground}) => {
     const colorScheme = useColorScheme();
     const isDarkMode = colorScheme === 'dark';
     const { width: screenWidth } = Dimensions.get('window');
-
+    
+    const normalStyle = [(styles.button, {width: screenWidth * 0.70}, transparentBackground === true ? null: isDarkMode? styles.lightContainer :styles.darkContainer) ]
     return(
-        <TouchableOpacity style={[applyStyles && (styles.button, {width: screenWidth * 0.70}, isDarkMode? styles.darkContainer :styles.lightContainer) ]}
+        <TouchableOpacity style={normalStyle}
             onPress={onPress}>
-            {((title.length > 0) && (<Text style={[styles.buttonText, {color: isDarkMode ? colors.white : (Platform.OS === 'android'? colors.white: colors.greenPrimary)}]}>{title}</Text>))}
+            {(title && (<Text style={[styles.buttonText, {color: isDarkMode ? colors.greenPrimary : colors.white }]}>{title}</Text>))}
              {(imagePath && (<Image source={{ uri: imagePath }} style={{width: 30, height: 30}} />))}
         </TouchableOpacity>
     )
@@ -34,12 +35,19 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 16,
         fontWeight: 'bold',
+        textAlign: 'center',
     },
     lightContainer: {
-        backgroundColor: Platform.OS === 'android'? '#749E47': '#ffffff',
+        backgroundColor: '#ffffff',
+        borderColor: '#749E47',
+        borderWidth: 2,
+        borderRadius: 10,
     },
     darkContainer: {
         backgroundColor: '#749E47',
+        borderColor: '#749E47',
+        borderWidth: 2,
+        borderRadius: 10,
     }
 })
 

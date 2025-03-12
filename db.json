@@ -14,4 +14,18 @@
     "title": "Donate Food on Birthday",
    "secondaryText": "Share the joy with someone who value",
     "image": "/Users/dhruvikaahuja/Documents/Workspace/React-Native/Donation/assets/images/birthday1.png"
-}]}
+}],
+"users":[
+    {
+        "id":"1",
+        "username":"dhruvikaahuja",
+        "password":"123456",
+        "name": "Dhruvika Ahuja"
+    },
+    {
+        "id":"2",
+        "username":"tarunmalhotra",
+        "name":"Tarun Malhotra",
+        "password":"123456"
+    }
+]}
