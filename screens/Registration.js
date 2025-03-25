@@ -3,27 +3,13 @@ import DButton from '../components/DButton';
 import DInputText from '../components/DInputText';
 import { Formik } from 'formik';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
 import colors from '../colors';
+//import { createUser } from './user';
+import auth from '@react-native-firebase/auth'
 
-export type DonationStackParamList = {
-    LoginScreen: undefined;
-    ItemListScreen: undefined;
-    Registration: undefined;
-  };
-
-type LoginScreenRouteProp = RouteProp<DonationStackParamList, 'LoginScreen'>
-
-type LoginScreenNavigationProp = StackNavigationProp<DonationStackParamList, 'LoginScreen'>
-
-type Props = {
-    route: LoginScreenRouteProp;
-    navigation: LoginScreenNavigationProp;
-}
-const LoginScreen = () => {
+const Registration = () => {
     const isDarkMode = useColorScheme() === 'dark';
-    const navigation = useNavigation<LoginScreenNavigationProp>();
+    const navigation = useNavigation();
      const colorScheme = useColorScheme();
     const { width: screenWidth } = Dimensions.get('window');
     let darkLightcolor = isDarkMode ? colors.white : colors.greenPrimary
@@ -34,22 +20,26 @@ const LoginScreen = () => {
             <KeyboardAvoidingView>
             <ScrollView>
                 <Formik 
-                initialValues={{username: '', password: ''}}
+                initialValues={{fullname:'', email: '', password: ''}}
                 validate={(values) => {
                     const errors = {
-                        username: "",
+                        fullname: "",
+                        email: "",
                         password: "",
                     }
                   
-                    if (!values.username) {
-                      errors.username = 'Required';
-                    } else if (!/^[a-zA-Z0-9_]{4,15}$/i.test(values.username)) {
-                      errors.username = 'Invalid username address';
-                    }
+                    if (!values.email) {
+                      errors.email = 'Required';
+                    } 
                     
                     if(!values.password) {
                         errors.password = "Required";
                     }
+
+                    if(!values.fullname) {
+                        errors.fullname = "Required";
+                    }
+
                     return errors;
                  }}
                 onSubmit={() => {
@@ -59,13 +49,23 @@ const LoginScreen = () => {
                 >{({ handleChange, handleBlur, handleSubmit, validateForm, values, errors, touched }) => (
                     <View>
                         <DInputText 
-                        placeholderText='Username' 
-                        onChangeText={handleChange('username')}
-                        onBlur={handleBlur('username')}
-                        value={values.username}
-                        title='Username'
-                        errorText={errors.username}
-                        touched={touched.username}
+                        placeholderText='fullname' 
+                        onChangeText={handleChange('fullname')}
+                        onBlur={handleBlur('fullname')}
+                        value={values.fullname}
+                        title='fullname'
+                        errorText={errors.fullname}
+                        touched={touched.fullname}
+                        />
+
+                        <DInputText 
+                        placeholderText='email' 
+                        onChangeText={handleChange('email')}
+                        onBlur={handleBlur('email')}
+                        value={values.email}
+                        title='email'
+                        errorText={errors.email}
+                        touched={touched.email}
                         />
                         <DInputText 
                         placeholderText='Password' 
@@ -78,20 +78,30 @@ const LoginScreen = () => {
                         touched={touched.password}
                         />
                   
-                    <DButton title='Login' onPress={async () => {
-                        // Manually trigger form validation
-                        const errors = await validateForm();
-                        if (errors.username?.length === 0 && errors.password?.length === 0) {
-                            // No validation errors, proceed with submission
-                            handleSubmit();
-                            navigation.navigate("ItemListScreen")
-                        } else {
-                            console.log('Validation errors:', errors);
-                        }
-                    }} />
-
                     <DButton title='Registration' onPress={async () => {
-                         navigation.navigate("Registration");
+                        console.log("regisration button clicked")
+                      //  await createUser(fullname, email, password);
+                        try{
+                            const user = await auth().createUserWithEmailAndPassword("dhruvika.ahuja@gmail.com", "Payal@123!");
+                            await user.user.updateProfile("Dhruvika Ahuja");
+                            console.log(user);
+                            return user;
+                        } catch(error) {
+                            if(error.code === 'auth/email-already-in-use'){
+                                console.log("The  email address is already in use")
+                            } else if(error.code === 'auth/invaid-email') {
+                                console.log('The email address is invalid');
+                            }
+                            console.log(error);
+                        }
+                        // Manually trigger form validation
+                      //  const errors = await validateForm();
+                        // if (errors.email?.length === 0 && errors.password?.length === 0 && errors.fullname?.length === 0) {
+                        //     // No validation errors, proceed with submission
+                        //    await createUser(fullname, email, password);
+                        // } else {
+                        //     console.log('Validation errors:', errors);
+                        // }
                     }} />
             </View>
                 )}
@@ -130,4 +140,4 @@ const styles = StyleSheet.create({
         }
 })
 
-export default LoginScreen;
+export default Registration;

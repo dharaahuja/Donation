@@ -23,11 +23,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ProfileScreen from './screens/ProfileScreen';
 import ItemListScreen from './screens/ItemListScreen';
+import Registration from './screens/Registration';
 import colors from './colors';
 import DButton from './components/DButton';
 import { Provider } from 'react-redux';
-import { store } from './store';
-import LoginScreenReplica from './screens/LoginScreenReplica';
+import { store, persistor } from './screens/store.js'
+import { PersistGate } from 'redux-persist/integration/react';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +41,7 @@ function App(): React.JSX.Element {
   const headerStyle = {backgroundColor: colors.navBarTint}
   return (
       <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName='LoginScreen'>
             <Stack.Screen name="LoginScreen" component={LoginScreen} 
@@ -47,9 +49,11 @@ function App(): React.JSX.Element {
               title: 'Login',
               headerStyle: headerStyle,
               headerTitleStyle: styles.headerTitleStyle }}/>
+            <Stack.Screen name="Registration" component={Registration}/>
             <Stack.Screen name="ItemListScreen" component={ItemListScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
+      </PersistGate>
       </Provider>
   )
 }
